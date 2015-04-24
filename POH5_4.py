@@ -1,12 +1,7 @@
 # coding: utf-8
 
-import sys
-
 #縦、横、選択範囲の総数を取得
-x, y, N = sys.stdin.readline().rstrip().rsplit(" ")
-
-#糞コード
-x, y, N = int(x), int(y), int(N)
+x, y, N = map(int, input().rsplit())
 
 #取得した整数格納用と選択範囲の記録用テーブルの宣言
 # number_table = [[0] * int(x)] * int(y)  <=これは配列一括初期化
@@ -15,18 +10,25 @@ x, y, N = int(x), int(y), int(N)
 #でもずっと同じテーブルに格納し続けちゃうのでこのままじゃだめ
 #number_table = [line.rstrip().rsplit(" ") for line in sys.stdin]
 
-
-#配列だけ先に宣言（気持ち悪いからもっと良い書き方教えて欲しい）
+#配列だけ先に宣言
 number_table = []
-selected_table = []
+flag_table = [[False for i in range(x)] for j in range(y)]
 
 for i in range(y):
-    #number_table[i] = [line.rstrip().rsplit(" ") for line in sys.stdin]
-    number_table.append(sys.stdin.readline().rstrip().rsplit(" "))
+    number_table.append(list(map(int, input().rsplit())))
 
 for i in range(N):
-    selected_table.append(sys.stdin.readline().rstrip().rsplit(" "))
+    x1, y1, x2, y2 = map(int, input().rsplit())
 
-#Todo:  配列に格納した値の整数(int)化
-#       選択された範囲をフラグで管理
-#       フラグが立っている配列の要素を全部足して出力
+    for m in range(y1 - 1, y2):
+        for n in range(x1 - 1, x2):
+            flag_table[m][n] = True
+
+result = 0
+
+for i in range(y):
+    for j in range(x):
+        if flag_table[i][j]:
+            result += number_table[i][j]
+
+print(result)
